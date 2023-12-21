@@ -1,0 +1,11 @@
+name_of_crop,length_per_seed,breath_per_seed,seeds_per_hole,unit_price
+Cassava,0.8,0.8,1,13000
+Carrot,0.05,0.05,3,11000
+Irish Potato,0.3,0.3,1,12600
+Sweet Potato,0.6,0.6,1,15300
+Dasheen,0.45,0.45,2,14500
+Arrow Root,0.45,0.45,1,13200
+Yam,0.01,0.01,1,16800
+Ginger,0.3,0.3,1,19000
+Cocoyam,0.6,0.6,1,13200
+Tumeric,0.3,0.3,1,11200

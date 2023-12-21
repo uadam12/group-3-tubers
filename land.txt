@@ -1,0 +1,7 @@
+name,size_in_m2,number_of_workers,price_per_worker,liters_of_pesticide,unit_price_of_pesticide,price_of_sqm
+Hectare,10000,100,2500,200,7500,12000
+Acre,4046,54,2200,125,7500,12000
+Full Plot,900,35,2000,100,7500,12000
+Half Plot,400,25,1800,75,7500,12000
+Quarter Plot,225,20,1600,60,7500,12000
+Square Meter,100,15,1400,45,7500,12000
