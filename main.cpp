@@ -116,7 +116,7 @@ void printLandDetails(const vector<LandDetails> &land_details) {
 	cout << endl;
 }
 
-void promptUserToCalculateFarmDetails(const vector<FarmingDetails> &farming_details, const LandDetails &land_details) {
+void promptUserToCalculateFarmDetails(const vector<FarmingDetails> &farming_details, const LandDetails &land_details, ofstream& out) {
 	int input;
 	bool valid = true;
 	do {
@@ -135,6 +135,9 @@ void promptUserToCalculateFarmDetails(const vector<FarmingDetails> &farming_deta
 
 	cout << land_details.toString() << endl;
 	cout << selectedFarmingDetail.toString() << endl;
+	
+	out << land_details.toString() << endl;
+	out << selectedFarmingDetail.toString() << endl;
 
 	cout << "Approx. cost of laborers: N" << approxCostOfLabor(land_details.number_of_workers, land_details.price_per_worker) << endl;
 	cout << "Approx. cost of pesticide: N" << approxCostOfPesticide(land_details.unit_price_of_pesticide, land_details.liters_of_pesticide) << endl;
@@ -143,14 +146,23 @@ void promptUserToCalculateFarmDetails(const vector<FarmingDetails> &farming_deta
 	cout << "Approx. seeds per land area: " << seedsPerLandArea(selectedFarmingDetail, land_details.size_in_m2) << endl;
 	cout << "Approx. plants per land area: " << plantsPerLandArea(selectedFarmingDetail, land_details.size_in_m2) << endl;
 	cout << "Approx. earnings per land area: N" << approximateEarnings(selectedFarmingDetail, land_details.size_in_m2) << endl << endl;
+	
+	out << "Approx. cost of laborers: N" << approxCostOfLabor(land_details.number_of_workers, land_details.price_per_worker) << endl;
+	out << "Approx. cost of pesticide: N" << approxCostOfPesticide(land_details.unit_price_of_pesticide, land_details.liters_of_pesticide) << endl;
+	out << "Approx. cost of land: N" << approxCostOfLand(land_details.size_in_m2, land_details.price_of_sqm) << endl << endl;
+
+	out << "Approx. seeds per land area: " << seedsPerLandArea(selectedFarmingDetail, land_details.size_in_m2) << endl;
+	out << "Approx. plants per land area: " << plantsPerLandArea(selectedFarmingDetail, land_details.size_in_m2) << endl;
+	out << "Approx. earnings per land area: N" << approximateEarnings(selectedFarmingDetail, land_details.size_in_m2) << endl << endl;
 
 	const long totalCost = approxCostOfLabor(land_details.number_of_workers, land_details.price_per_worker) + approxCostOfPesticide(land_details.unit_price_of_pesticide, land_details.liters_of_pesticide) + approxCostOfLand(land_details.size_in_m2, land_details.price_of_sqm);
 	const long approxProfit = approximateEarnings(selectedFarmingDetail, land_details.size_in_m2) - totalCost;
 
 	cout << "Approx. profit: N" << approxProfit << endl;
+	out << "Approx. profit: N" << approxProfit << endl;
 }
 
-void promptUserToSelectLandDetails(const vector<LandDetails> &land_details, const vector<FarmingDetails> &farming_details) {
+void promptUserToSelectLandDetails(const vector<LandDetails> &land_details, const vector<FarmingDetails> &farming_details,ofstream& out) {
 	int input;
 	bool valid = true;
 	do {
@@ -168,7 +180,7 @@ void promptUserToSelectLandDetails(const vector<LandDetails> &land_details, cons
 	const LandDetails& selectedLandDetail = land_details[input - 1];
 
 	printFarmingDetails(farming_details);
-	promptUserToCalculateFarmDetails(farming_details, selectedLandDetail);
+	promptUserToCalculateFarmDetails(farming_details, selectedLandDetail, out);
 }
 
 auto createFarmDetailsFromLine (const string &line) -> FarmingDetails {
@@ -182,6 +194,7 @@ auto createLandDetailsFromLine (const string &line) -> LandDetails {
 };
 
 int main() {
+	ofstream out("output.txt");
 	const char *FILE_NAME = {"info.txt"};
 	fstream *file = FileOperations::openFile(FILE_NAME);
 
@@ -198,7 +211,9 @@ int main() {
 	transform(land_lines.begin() + 1, land_lines.end(), back_inserter(land_details), createLandDetailsFromLine);
 
 	printLandDetails(land_details);
-	promptUserToSelectLandDetails(land_details, details);
+	promptUserToSelectLandDetails(land_details, details, out);
+
+	out.close();
 
 	return 0;
 }
